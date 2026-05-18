@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "runtime": "@vercel/python@4.3.1",
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    { "source": "/run-agent", "destination": "/api/index" },
+    { "source": "/run-agent-stream", "destination": "/api/index" },
+    { "source": "/health", "destination": "/api/index" }
+  ]
+}

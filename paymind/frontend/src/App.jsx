@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Play, CheckCircle, Clock, FileText, Coins, Link2, Hash, AlertCircle, Loader2 } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://localhost:8000' : '');
 
 const STEPS = [
   { id: 'executing', label: 'Executing Task', description: 'Running your task through the LLM via OpenRouter', icon: Play },
@@ -138,7 +138,7 @@ function App() {
             Pay<span className="text-purple-400">Mind</span>
           </h1>
           <p className="text-lg text-purple-200">Autonomous AI Agent · Kite AI Hackathon 2026</p>
-          <p className="text-sm text-slate-400 mt-1">Execute · Invoice · Pay · Attest — zero human involvement</p>
+          <p className="text-sm text-slate-400 mt-1">Execute · Invoice · Pay · Attest zero human involvement</p>
         </div>
 
         {/* Form */}
