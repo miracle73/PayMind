@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Play, CheckCircle, Clock, FileText, Coins, Link2, Hash, AlertCircle, Loader2 } from 'lucide-react';
+import { Play, CheckCircle, Clock, FileText, Coins, Link2, Hash, AlertCircle, Loader2, Trash2 } from 'lucide-react';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://localhost:8000' : '');
 
@@ -168,15 +168,32 @@ function App() {
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={loading || !task.trim() || !wallet.trim()}
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] flex items-center justify-center gap-2"
-            >
-              {loading
-                ? <><Loader2 size={20} className="animate-spin" /> Agent running…</>
-                : <><Play size={20} /> Run Agent</>}
-            </button>
+            <div className="flex gap-3">
+              <button
+                type="submit"
+                disabled={loading || !task.trim() || !wallet.trim()}
+                className="flex-1 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                {loading
+                  ? <><Loader2 size={20} className="animate-spin" /> Agent running…</>
+                  : <><Play size={20} /> Run Agent</>}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTask('');
+                  setWallet('');
+                  setResult(null);
+                  setError(null);
+                  setActiveStep('');
+                  setCompletedSteps(new Set());
+                }}
+                disabled={loading}
+                className="px-5 py-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                <Trash2 size={18} /> Clear
+              </button>
+            </div>
           </form>
         </div>
 
