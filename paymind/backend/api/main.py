@@ -9,7 +9,8 @@ from pydantic import BaseModel
 from typing import Dict, Any, AsyncGenerator
 
 from dotenv import load_dotenv
-load_dotenv()
+import pathlib
+load_dotenv(dotenv_path=pathlib.Path(__file__).parent.parent.parent / ".env")
 
 from agent.graph import agent_graph
 from agent.state import AgentState
