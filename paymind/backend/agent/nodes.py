@@ -2,8 +2,10 @@
 import os
 import httpx
 from typing import Dict, Any
+from dotenv import load_dotenv
 from .state import AgentState
 
+load_dotenv()
 
 # OpenRouter configuration
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
@@ -85,7 +87,7 @@ async def settle_payment(state: AgentState) -> AgentState:
     Updates state with payment transaction hash.
     """
     try:
-        from kite.client import KiteClient
+        from kite.client import KiteClient  # noqa: PLC0415 — deferred to avoid circular at startup
 
         kite_client = KiteClient()
         amount_wei = state["invoice"]["amount_wei"]

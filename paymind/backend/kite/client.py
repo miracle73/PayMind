@@ -1,8 +1,10 @@
 """Kite chain client integration using web3.py."""
 import os
 from web3 import Web3
-from web3.exceptions import TransactionNotFound
 from typing import Optional
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class KiteClient:
@@ -106,10 +108,11 @@ class KiteClient:
             # Sign transaction
             signed_tx = self.account.sign_transaction(tx)
 
-            # Send transaction
-            tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+            # Send transaction (web3 >=7 uses .raw_transaction)
+            raw = getattr(signed_tx, 'raw_transaction', None) or signed_tx.rawTransaction
+            tx_hash = self.w3.eth.send_raw_transaction(raw)
 
-            # Wait for receipt (optional, can be async in production)
+            # Wait for receipt
             receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
 
             if receipt.status == 0:
@@ -131,15 +134,12 @@ class KiteClient:
             Transaction hash as hex string
         """
         try:
-            # Ensure data_hash is bytes32
             if not data_hash.startswith("0x"):
                 data_hash = "0x" + data_hash
             bytes32_hash = self.w3.to_bytes(hexstr=data_hash)
 
-            # Get nonce
             nonce = self.w3.eth.get_transaction_count(self.account.address)
 
-            # Build transaction
             tx = self.contract.functions.postAttestation(bytes32_hash).build_transaction({
                 'from': self.account.address,
                 'nonce': nonce,
@@ -147,11 +147,10 @@ class KiteClient:
                 'gasPrice': self.w3.eth.gas_price,
             })
 
-            # Sign transaction
             signed_tx = self.account.sign_transaction(tx)
 
-            # Send transaction
-            tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+            raw = getattr(signed_tx, 'raw_transaction', None) or signed_tx.rawTransaction
+            tx_hash = self.w3.eth.send_raw_transaction(raw)
 
             # Wait for receipt
             receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
