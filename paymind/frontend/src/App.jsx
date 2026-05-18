@@ -126,7 +126,7 @@ function App() {
     }
   };
 
-  const explorerUrl = (hash) => `https://explorer.kite.ai/tx/${hash}`;
+  const explorerUrl = (hash) => `https://testnet.kitescan.ai/tx/${hash}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900">
